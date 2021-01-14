@@ -1,0 +1,46 @@
+plugins {
+    id 'org.springframework.boot' version '2.4.1'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'java'
+}
+
+group = 'fun.box.test'
+version = '0.0.1'
+sourceCompatibility = '1.8'
+def env = project.hasProperty("env") ? env :"dev"
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+processResources {
+    if (env == "docker"){
+        from ("${project.rootDir}/properties")
+        include "application.properties"
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'redis.clients:jedis:3.4.1'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compile 'commons-validator:commons-validator:1.7'
+    compile 'org.modelmapper:modelmapper:2.3.8'
+    implementation 'org.modelmapper:modelmapper:2.3.8'
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+}
+
+test {
+    useJUnitPlatform()
+}

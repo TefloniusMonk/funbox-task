@@ -1,0 +1,17 @@
+version: '2.1'
+services:
+  redis:
+    container_name: redis
+    image: "redis:alpine"
+    hostname: redis
+    ports:
+      - 6379:6379
+  link:
+    container_name: link
+    image: link
+    ports:
+      - 8088:8080
+    build:
+      context: link
+    depends_on:
+      - redis
